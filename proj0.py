@@ -3,7 +3,7 @@ import mysql.connector
 from dotenv import load_dotenv
 import os
 load_dotenv()
-s
+
 #connects to mysql 
 db = mysql.connector.MySQLConnection(
     host=os.getenv("HOST"),
