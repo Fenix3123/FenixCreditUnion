@@ -74,19 +74,19 @@ def update(table_name, column, variable, column2, variable2):
     mycursor.execute(sql)
     db.commit()
     print("update")
-    
+
 #Looks through users for logging in (Select statements)
 def read_users(username, password):
     mycursor = db.cursor()
-    sql = "SELECT * FROM users"
+    sql = "SELECT * FROM users where username = '{}' and password = '{}'".format(username, password)
     mycursor.execute(sql)
     # Fetch all the records and use a for loop to print them one line at a time
     result = mycursor.fetchall()
-    for i in result:
-        if username == i[2] and password == i[3]:
-            return True
-        else:
-            return False
+    if result != None:
+        return True
+    else:
+        return False
+
 #gets users
 def get_user(username):
     mycursor = db.cursor()
@@ -187,7 +187,7 @@ while True:
                         
                     elif action == "2":
                         mycursor = db.cursor()
-                        #getting user
+                        #getting use
                         result = get_user(username)
                         #getting bank_account
                         sql_bank_select = "SELECT * FROM bank_accounts where user_ID = '{}'".format(result[0])  
