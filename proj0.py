@@ -80,11 +80,12 @@ def read_users(username, password):
     mycursor = db.cursor()
     sql = "SELECT * FROM users where username = '{}' and password = '{}'".format(username, password)
     mycursor.execute(sql)
-    result = mycursor.fetchall()
-    if result != None:
-        return True
-    else:
+    result = mycursor.fetchone()
+    if result is None:
         return False
+    else:
+        return True
+
 
 #gets users
 def get_user(username):
