@@ -7,6 +7,37 @@ In order to run my project:
 - Make sure you also have pip
 - You can check if you have installed them properly by putiing in "python --version" and "pip --version" in the cmd
 - You just need the proj0.py and the env files
+- the env files contains the details for when you would like to create the Mysql table
+- Once you have a connection to the Mysql databse create these tables
+- copy paste lines 13 to 39 in Mysql workbrench
+CREATE TABLE users (
+    user_ID int NOT NULL auto_increment,
+    name varchar(255),
+    username varchar(255),
+    password varchar(255),
+    role varchar(255),
+    PRIMARY KEY (user_ID)
+);
+
+CREATE TABLE Address (
+    address_ID int NOT NULL auto_increment,
+    address_line varchar(255),
+    city varchar(255),
+    country varchar(255),
+    zipcode varchar(255),
+    user_ID int,
+    PRIMARY KEY (address_ID),
+    FOREIGN KEY (user_ID) REFERENCES users(user_ID)
+);
+
+CREATE TABLE bank_accounts(
+    account_ID int NOT NULL auto_increment,
+    balance int,
+    user_ID int,
+    PRIMARY KEY (account_ID),
+    FOREIGN KEY (user_ID) REFERENCES users(user_ID)
+);
+
 -Make sure you have all these packages by doing "pip install 'package_name'"
 
 asgiref==3.5.2
