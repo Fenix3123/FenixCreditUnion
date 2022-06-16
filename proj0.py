@@ -1,5 +1,6 @@
 import csv
 import mysql.connector
+from collections import UserList
 from dotenv import load_dotenv
 import os
 load_dotenv()
@@ -32,6 +33,8 @@ class bank:
         self.balance = balance
         self.user_ID = user_ID
 
+list1 = []        
+
 #creates stuff and puts it in the table
 def insert_user(newUser):
     try:
@@ -40,11 +43,8 @@ def insert_user(newUser):
         sql_user_insert = """INSERT INTO users (name, username, password, role) VALUES('{}','{}','{}', '{}')""".format(newUser.name,newUser.username,newUser.password,newUser.role)
         mycursor.execute(sql_user_insert)
         db.commit()
-        #insert bank line
-        sql_user_select = "SELECT * FROM users where name = '{}'".format(name)  
-        mycursor.execute(sql_user_select)  
-            #getting user
-        result = get_user(username)
+        #selecting user
+        result = get_user(newUser.username)
             #creating bank object
         bank_account = bank(result[0], 0)
         sql_bank = """INSERT INTO bank_accounts (balance, user_ID) VALUES('{}','{}')""".format(bank_account.balance, bank_account.user_ID)
@@ -59,7 +59,7 @@ def insert_user(newUser):
         print("successful insert")
     except mysql.connector.Error as e:
         print(e)
-
+        
 #delete stuff method
 def delete(table_name, column, variable):
     mycursor = db.cursor()
@@ -80,7 +80,6 @@ def read_users(username, password):
     mycursor = db.cursor()
     sql = "SELECT * FROM users where username = '{}' and password = '{}'".format(username, password)
     mycursor.execute(sql)
-    # Fetch all the records and use a for loop to print them one line at a time
     result = mycursor.fetchall()
     if result != None:
         return True
@@ -93,6 +92,7 @@ def get_user(username):
     sql_user_select = "SELECT * FROM users where username = '{}'".format(username)  
     mycursor.execute(sql_user_select)  
     return mycursor.fetchone()
+
 
 #to be made into an admin method
 def csv_insert(file_name):
@@ -117,48 +117,33 @@ def csv_insert(file_name):
             sql_user_address_insert = """INSERT INTO address (address_line, city, country, zipcode, user_ID) VALUES('{}','{}','{}','{}','{}')""".format(user_address.address_line, user_address.city, user_address.country, user_address.zipcode, user_address.user_ID)
             mycursor.execute(sql_user_address_insert)
             db.commit()
+            print()
             print("successful insert")
             
-#creates stuff and puts it in the table
-def insert_user(newUser):
-    try:
-        #insert users
-        mycursor = db.cursor()
-        sql_user_insert = """INSERT INTO users (name, username, password, role) VALUES('{}','{}','{}', '{}')""".format(newUser.name,newUser.username,newUser.password,newUser.role)
-        mycursor.execute(sql_user_insert)
-        db.commit()
-        #getting user
-        result = get_user(username)
-            #creating bank object
-        bank_account = bank(result[0], 0)
-        sql_bank = """INSERT INTO bank_accounts (balance, user_ID) VALUES('{}','{}')""".format(bank_account.balance, bank_account.user_ID)
-        mycursor.execute(sql_bank)   
-        db.commit()
-        #insert into address
-            #creating address object
-        user_address = address(result[0], None, None, None, None)
-        sql_user_address_insert = """INSERT INTO address (address_line, city, country, zipcode, user_ID) VALUES('{}','{}','{}','{}','{}')""".format(user_address.address_line, user_address.city, user_address.country, user_address.zipcode, user_address.user_ID)
-        mycursor.execute(sql_user_address_insert)
-        db.commit()
-        print("successful insert")
-    except mysql.connector.Error as e:
-        print(e)
     
 #Main code execution
 while True:
-    print("Welcome to the FCU terminal")
+    print("---------------------------------")
+    print("- Welcome to the FCU terminal -")
+    print("---------------------------------")
     action = input("What would you like to do? 0 => Exit, 1 => Create a new User, 2 => Login: ")
     if action == "0":
         quit()
     elif action == "1":
-        print("Create your account by putting your name, username, and password")
+        print()
+        print("--------------------------------------------------------------------")
+        print("-Create your account by putting your name, username, and password-")
+        print("--------------------------------------------------------------------")
         name = input("Name: ")
         username = input("Username: ")
         password = input("password: ")
         newUser = user(name, username, password, "user")
         insert_user(newUser)
     elif action == "2":
-        print("Put in your credentials")
+        print()
+        print("--------------------------")
+        print("-Put in your credentials-")
+        print("--------------------------")
         username = input("username: ")
         password = input("password: ")
         if read_users(username, password) == True:
@@ -166,9 +151,10 @@ while True:
             current_user = get_user(username)
             if current_user[4] == "user":
                 while True:
-                    print()
-                    print("Welcome {}".format(username)) 
-                    action = input("What would you like to do? 0 => logout, 1 => Deposit money, 2 => Withdraw money, 3 => Update address, 4 => Delete account: ")
+                    print("-------------")
+                    print("-Welcome {}-".format(username)) 
+                    print("-------------")
+                    action = input("-What would you like to do? 0 => logout, 1 => Deposit money, 2 => Withdraw money, 3 => Update address, 4 => Delete account: ")
                     if action == "0":
                         print()
                         break
@@ -239,8 +225,7 @@ while True:
                     elif action =="1":
                         file_name = input("What is the name of the csv file (ex. file.csv): ")
                         csv_insert(file_name)
-                
-        else:
+        elif read_users(username, password) == False:
             print("No user exists")
     
 #test stuuf    
