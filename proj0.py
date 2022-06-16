@@ -1,6 +1,6 @@
 import csv
 import mysql.connector
-from collections import UserList
+from collections import Counter
 from dotenv import load_dotenv
 import os
 load_dotenv()
@@ -56,7 +56,7 @@ def insert_user(newUser):
         sql_user_address_insert = """INSERT INTO address (address_line, city, country, zipcode, user_ID) VALUES('{}','{}','{}','{}','{}')""".format(user_address.address_line, user_address.city, user_address.country, user_address.zipcode, user_address.user_ID)
         mycursor.execute(sql_user_address_insert)
         db.commit()
-        print("successful insert")
+        print("successful inserted")
     except mysql.connector.Error as e:
         print(e)
         
@@ -97,6 +97,7 @@ def get_user(username):
 
 #to be made into an admin method
 def csv_insert(file_name):
+    theList = []
     with open(file_name) as csv_file:
         reader = csv.reader(csv_file, delimiter=',')
         next(reader)
@@ -118,8 +119,10 @@ def csv_insert(file_name):
             sql_user_address_insert = """INSERT INTO address (address_line, city, country, zipcode, user_ID) VALUES('{}','{}','{}','{}','{}')""".format(user_address.address_line, user_address.city, user_address.country, user_address.zipcode, user_address.user_ID)
             mycursor.execute(sql_user_address_insert)
             db.commit()
-            print()
-            print("successful insert")
+            theList.append("successfully inserted")
+    newList = Counter(theList)
+    for k,v in newList.items():
+        print("You have {} {} accounts".format(k, v))
             
     
 #Main code execution
@@ -218,7 +221,10 @@ while True:
             elif current_user[4] == "admin":
                 #admin stuff
                 while True:
-                    print("Welcome admin")
+                    print()
+                    print("---------------")
+                    print("-Welcome admin-")
+                    print("---------------")
                     action = input("What would you like to do? 0 => logout, 1=>Insert users throught CSV: ")
                     if action == "0":
                         print()
@@ -229,10 +235,4 @@ while True:
         elif read_users(username, password) == False:
             print("No user exists")
     
-#test stuuf    
-# mycursor = db.cursor()
-# sql = "SELECT * FROM users where name = 'Debbie'"
-# mycursor.execute(sql)
-# # Fetch all the records and use a for loop to print them one line at a time
-# result = mycursor.fetchone()
-# print(result)
+
