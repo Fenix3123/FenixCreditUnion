@@ -31,9 +31,7 @@ class address:
 class bank:
     def __init__(self, user_ID, balance):
         self.balance = balance
-        self.user_ID = user_ID
-
-list1 = []        
+        self.user_ID = user_ID   
 
 #creates stuff and puts it in the table
 def insert_user(newUser):
