@@ -156,7 +156,7 @@ while True:
                     print("-------------")
                     print("-Welcome {}-".format(username)) 
                     print("-------------")
-                    action = input("-What would you like to do? 0 => logout, 1 => Deposit money, 2 => Withdraw money, 3 => Update address, 4 => Delete account: ")
+                    action = input("-What would you like to do? 0 => logout, 1 => Deposit money, 2 => Withdraw money, 3 => Update address, 4 => Delete account, 5 => Account details: ")
                     if action == "0":
                         print()
                         break
@@ -215,6 +215,22 @@ while True:
                         delete("users", "user_ID", result[0])
                         print("account deleted")
                         break
+                    elif action == "5":
+                        #getting the user
+                        mycursor = db.cursor()
+                        result = get_user(username)
+                        #getting bank_account
+                        sql_bank_select = "SELECT * FROM bank_accounts where user_ID = '{}'".format(result[0])  
+                        mycursor.execute(sql_bank_select)  
+                        result_bank = mycursor.fetchone()
+                        #getting address
+                        sql_address_select = "SELECT * FROM address where user_ID = '{}'".format(result[0])  
+                        mycursor.execute(sql_address_select)  
+                        result_address = mycursor.fetchone()
+                        print("Name: "+result[1]+" ,username: "+result[2]+ " ,password: "+result[3])
+                        print("bank balance: "+str(result_bank[1]))
+                        print("address: "+result_address[1]+" ,city: "+result_address[2]+" ,country: "+result_address[3]+" ,zipcode: "+result_address[4])
+                        
                     #end of user functionality
             elif current_user[4] == "admin":
                 #admin stuff
@@ -231,6 +247,7 @@ while True:
                         file_name = input("What is the name of the csv file (ex. file.csv): ")
                         csv_insert(file_name)
         elif read_users(username, password) == False:
-            print("No user exists")
+            print("--------------------------------------------------------------")
+            print("The user does not exist or wrong username and/or password")
     
 
