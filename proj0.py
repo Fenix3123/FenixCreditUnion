@@ -228,9 +228,15 @@ while True:
                         sql_address_select = "SELECT * FROM address where user_ID = '{}'".format(result[0])  
                         mycursor.execute(sql_address_select)  
                         result_address = mycursor.fetchone()
-                        print("Name: "+result[1]+" ,username: "+result[2]+ " ,password: "+result[3])
+                        print()
+                        print("Name: "+result[1])
+                        print("username: "+result[2])
+                        print("password: "+result[3])
                         print("bank balance: "+str(result_bank[1]))
-                        print("address: "+result_address[1]+" ,city: "+result_address[2]+" ,country: "+result_address[3]+" ,zipcode: "+result_address[4])
+                        print("address: "+result_address[1])
+                        print("city: "+result_address[2])
+                        print("country: "+result_address[3])
+                        print("zipcode: "+result_address[4])
                         
                     #end of user functionality
             elif current_user[4] == "admin":
