@@ -117,6 +117,7 @@ def csv_insert(file_name):
             sql_user_address_insert = """INSERT INTO address (address_line, city, country, zipcode, user_ID) VALUES('{}','{}','{}','{}','{}')""".format(user_address.address_line, user_address.city, user_address.country, user_address.zipcode, user_address.user_ID)
             mycursor.execute(sql_user_address_insert)
             db.commit()
+            print("------------------------------")
             theList.append("successfully inserted")
     newList = Counter(theList)
     for k,v in newList.items():
