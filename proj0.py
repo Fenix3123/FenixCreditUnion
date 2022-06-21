@@ -10,7 +10,7 @@ db = mysql.connector.MySQLConnection(
     host=os.getenv("HOST"),
     user=os.getenv("USER"),
     password=os.getenv("PASSWORD"),
-    database="hw2"
+    database="proj0"
 )
 #Classes
 class user:
