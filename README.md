@@ -8,6 +8,10 @@ In order to run my project:
 - You can check if you have installed them properly by putiing in "python --version" and "pip --version" in the cmd
 - You just need the proj0.py and the env files
 - the env files contains the details for when you would like to create the Mysql table
+- what env should contain:
+HOST="Name of yout host"
+USER="Your username"
+PASSWORD="mysql passsword"
 - Once you have a connection to the Mysql databse create these tables
 - copy paste lines 13 to 39 in Mysql workbrench
 CREATE TABLE users (
