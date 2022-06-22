@@ -13,7 +13,7 @@ HOST="Name of yout host"
 USER="Your username"
 PASSWORD="mysql passsword"
 - Once you have a connection to the Mysql databse create these tables
-- copy paste lines 13 to 39 in Mysql workbrench
+- copy paste the CREATE TABLE's below in Mysql workbrench
 CREATE TABLE users (
     user_ID int NOT NULL auto_increment,
     name varchar(255),
