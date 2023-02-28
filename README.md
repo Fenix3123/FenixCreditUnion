@@ -1,4 +1,4 @@
-# proj0_2
+# FenixCreditUnion
 Hello, this is the first project I worked to showcase what I have leart so far with Revature at the time I am writing this.
 
 In order to run my project:
